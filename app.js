@@ -1,6 +1,7 @@
 // remindコマンド
 const REMINDCOMMAND = '/remind';
 
+// Vue.js
 var app = new Vue({
     el : '#app',
     data : {
@@ -31,18 +32,7 @@ var app = new Vue({
         }
     },
     methods: {
-        // datetimeChange: function(event) {
-        //     console.log("@change実行");
-        //     console.log(this.datetime1);
-        //     // 日時指定の場合
-        //     if (this.datetime1 === 'custom') {
-        //         convertdatetime = this.datetime2;
-        //     // 日時指定以外の場合
-        //     } else {
-        //         convertdatetime = this.datetime1;
-        //     }
-        // },
-        createCommand: function(event) {
+        createCommand: function() {
 
             this.command = REMINDCOMMAND;
             let bindarray = new Array();
@@ -85,6 +75,18 @@ var app = new Vue({
                 console.log(bindarray[i]);
                 this.command += ' ' + bindarray[i];
             }
+        }, copyToClipboard: function() {
+            
+            // コピー対象をJavaScript上で変数として定義する
+            var copyTarget = document.getElementById("command");
+
+            // コピー対象のテキストを選択する
+            copyTarget.select();
+
+            // 選択しているテキストをクリップボードにコピーする
+            document.execCommand("Copy");
+
+            console.log(copyTarget.value);
         }
     }
 });
