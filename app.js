@@ -40,6 +40,7 @@ var app = new Vue({
 
             // 通知対象を取得する
             if (this.sendtarget != '') {
+                // FIXME
                 console.log(this.sendtarget);
                 bindarray[bindindex] = this.sendtarget;
                 bindindex++;
@@ -47,6 +48,7 @@ var app = new Vue({
 
             // メッセージを取得する
             if (this.messege != '') {
+                // FIXME
                 console.log(this.messege);
                 let convertmessege =
                     '"' + this.messege + '"';
@@ -57,8 +59,10 @@ var app = new Vue({
             // 通知日時を取得する
             if (this.datetime1 != '' && this.datetime1 != 'default') {
 
+                // FIXME
                 console.log(this.datetime1);
                 console.log(this.datetime2);
+
                 let convertdatetime;
                 // 日時指定の場合
                 if (this.datetime1 === 'custom') {
@@ -72,6 +76,7 @@ var app = new Vue({
             }
 
             for (i = 0; i < bindindex; i++) {
+                // FIXME
                 console.log(bindarray[i]);
                 this.command += ' ' + bindarray[i];
             }
@@ -86,6 +91,7 @@ var app = new Vue({
             // 選択しているテキストをクリップボードにコピーする
             document.execCommand("Copy");
 
+            // FIXME
             console.log(copyTarget.value);
         }
     }
