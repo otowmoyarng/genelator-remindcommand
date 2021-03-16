@@ -93,6 +93,13 @@ var app = new Vue({
 
             // FIXME
             console.log(copyTarget.value);
+
+            // FIXME
+            // // ツールチップを表示する
+            // var copybutton = document.getElementById("copybutton");
+            // let beforemessage = copybutton.title;
+            // copybutton.title = "Copied!";
+            // copybutton.title = beforemessage;
         }
     }
 });
