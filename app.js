@@ -5,26 +5,32 @@ const REMINDCOMMAND = '/remind';
 var app = new Vue({
     el : '#app',
     data : {
-        sendtarget: '',
+        sendtarget1: 'default',
+        sendtarget2: '',
         messege: '',
         datetime1: 'default',
         datetime2: '',
         command: REMINDCOMMAND
     },
     computed: {
-        selectedcustom() {
+        selected_sendtarget_custom() {
+            return this.sendtarget1 != 'custom';
+        },
+        selected_datetime_custom() {
             return this.datetime1 != 'custom';
         }
     },
     watch: {
-        sendtarget: function() {
+        sendtarget1: function() {
+            this.createCommand();
+        },
+        sendtarget2: function() {
             this.createCommand();
         },
         messege: function() {
             this.createCommand();
         },
         datetime1: function() {
-            console.log("watch実行");
             this.createCommand();
         },
         datetime2: function() {
@@ -39,17 +45,31 @@ var app = new Vue({
             bindindex = 0;
 
             // 通知対象を取得する
-            if (this.sendtarget != '') {
+            if (this.sendtarget1 != 'default') {
+
                 // FIXME
-                console.log(this.sendtarget);
-                bindarray[bindindex] = this.sendtarget;
+                // console.log(this.sendtarget1);
+                // console.log(this.sendtarget2);
+
+                let target = '';
+                // 自分に
+                if (this.sendtarget1 != 'me') {
+                    target += '@';
+                }
+                // 指定する
+                if (this.sendtarget1 == 'custom') {
+                    target += this.sendtarget2;
+                } else {
+                    target += this.sendtarget1;
+                }
+                bindarray[bindindex] = target;
                 bindindex++;
             }
 
             // メッセージを取得する
             if (this.messege != '') {
                 // FIXME
-                console.log(this.messege);
+                // console.log(this.messege);
                 let convertmessege =
                     '"' + this.messege + '"';
                 bindarray[bindindex] = convertmessege;
@@ -57,11 +77,11 @@ var app = new Vue({
             }
 
             // 通知日時を取得する
-            if (this.datetime1 != '' && this.datetime1 != 'default') {
+            if (this.datetime1 != 'default') {
 
                 // FIXME
-                console.log(this.datetime1);
-                console.log(this.datetime2);
+                // console.log(this.datetime1);
+                // console.log(this.datetime2);
 
                 let convertdatetime;
                 // 日時指定の場合
@@ -77,7 +97,7 @@ var app = new Vue({
 
             for (i = 0; i < bindindex; i++) {
                 // FIXME
-                console.log(bindarray[i]);
+                // console.log(bindarray[i]);
                 this.command += ' ' + bindarray[i];
             }
         }, copyToClipboard: function() {
@@ -92,14 +112,7 @@ var app = new Vue({
             document.execCommand("Copy");
 
             // FIXME
-            console.log(copyTarget.value);
-
-            // FIXME
-            // // ツールチップを表示する
-            // var copybutton = document.getElementById("copybutton");
-            // let beforemessage = copybutton.title;
-            // copybutton.title = "Copied!";
-            // copybutton.title = beforemessage;
+            // console.log(copyTarget.value);
         }
     }
 });
