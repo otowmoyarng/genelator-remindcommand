@@ -44,54 +44,76 @@ var app = new Vue({
             let bindarray = new Array();
             bindindex = 0;
 
-            // 通知対象を取得する
-            if (this.sendtarget1 != 'default') {
+            // 通知対象を取得する関数
+            const getTarget = function(sendtarget1, sendtarget2) {
 
                 // FIXME
-                // console.log(this.sendtarget1);
-                // console.log(this.sendtarget2);
+                console.log(this.sendtarget1);
+                console.log(this.sendtarget2);
+
+                if (sendtarget1 == 'default') {
+                    return null;
+                }
 
                 let target = '';
                 // 自分に
-                if (this.sendtarget1 != 'me') {
+                if (sendtarget1 != 'me') {
                     target += '@';
                 }
                 // 指定する
-                if (this.sendtarget1 == 'custom') {
-                    target += this.sendtarget2;
+                if (sendtarget1 == 'custom') {
+                    target += sendtarget2;
                 } else {
-                    target += this.sendtarget1;
+                    target += sendtarget1;
                 }
-                bindarray[bindindex] = target;
+                return target;
+            };
+
+            // 通知対象を取得する
+            var item = getTarget(this.sendtarget1, this.sendtarget2);
+            if (item != null) {
+                bindarray[bindindex] = item;
                 bindindex++;
             }
 
+            // メッセージを取得する関数
+            const getMessage = function(messege) {
+                
+                // FIXME
+                console.log(messege);
+
+                if (messege == '') {
+                    return null;
+                } else {
+                    return '"' + messege + '"';
+                }
+            }
             // メッセージを取得する
-            if (this.messege != '') {
-                // FIXME
-                // console.log(this.messege);
-                let convertmessege =
-                    '"' + this.messege + '"';
-                bindarray[bindindex] = convertmessege;
+            item = getMessage(this.messege);
+            if (item != null) {
+                bindarray[bindindex] = item;
                 bindindex++;
             }
 
-            // 通知日時を取得する
-            if (this.datetime1 != 'default') {
+            // 通知日時を取得する関数
+            const getDateTime = function(datetime1, datetime2) {
 
                 // FIXME
-                // console.log(this.datetime1);
-                // console.log(this.datetime2);
+                console.log(datetime1);
+                console.log(datetime2);
 
-                let convertdatetime;
                 // 日時指定の場合
                 if (this.datetime1 === 'custom') {
-                    convertdatetime = this.datetime2;
+                    return datetime2;
                 // 日時指定以外の場合
                 } else {
-                    convertdatetime = this.datetime1;
+                    return datetime1;
                 }
-                bindarray[bindindex] = convertdatetime;
+            }
+            // 通知日時を取得する
+            var item = getDateTime(this.datetime1, this.datetime2);
+            if (item != null) {
+                bindarray[bindindex] = item;
                 bindindex++;
             }
 
