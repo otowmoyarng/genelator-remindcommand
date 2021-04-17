@@ -135,7 +135,7 @@ var app = new Vue({
                 // console.log("datetime_month:" + this.datetime_month);
                 // console.log("datetime_day:" + this.datetime_day);
                 date = new Date(this.datetime_year, (this.datetime_month - 1), this.datetime_day);
-                item = date.toLocaleDateString();
+                item = "at " + date.toLocaleDateString();
             } else {
                 item = this.datetime1;
             }
