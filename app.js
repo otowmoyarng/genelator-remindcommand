@@ -48,8 +48,8 @@ var app = new Vue({
             const getTarget = function(sendtarget1, sendtarget2) {
 
                 // FIXME
-                console.log(this.sendtarget1);
-                console.log(this.sendtarget2);
+                // console.log("sendtarget1:" + sendtarget1);
+                // console.log("sendtarget2:" + sendtarget2);
 
                 if (sendtarget1 == 'default') {
                     return null;
@@ -80,7 +80,7 @@ var app = new Vue({
             const getMessage = function(messege) {
                 
                 // FIXME
-                console.log(messege);
+                // console.log("messege:" + messege);
 
                 if (messege == '') {
                     return null;
@@ -99,11 +99,11 @@ var app = new Vue({
             const getDateTime = function(datetime1, datetime2) {
 
                 // FIXME
-                console.log(datetime1);
-                console.log(datetime2);
+                // console.log("datetime1:" + datetime1);
+                // console.log("datetime2:" + datetime2);
 
                 // 日時指定の場合
-                if (this.datetime1 === 'custom') {
+                if (datetime1 === 'custom') {
                     return datetime2;
                 // 日時指定以外の場合
                 } else {
@@ -111,7 +111,7 @@ var app = new Vue({
                 }
             }
             // 通知日時を取得する
-            var item = getDateTime(this.datetime1, this.datetime2);
+            item = getDateTime(this.datetime1, this.datetime2);
             if (item != null) {
                 bindarray[bindindex] = item;
                 bindindex++;
