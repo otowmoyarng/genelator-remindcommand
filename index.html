@@ -50,9 +50,28 @@
                                 <!-- <option value=""></option> -->
                                 <!-- <option value=""></option> -->
                                 <!-- <option value=""></option> -->
-                                <option value="custom">日時指定</option>
+                                <option value="date-custom">日付指定</option>
+                                <option value="custom">その他</option>
                             </select>
                             <input type="text" class="form-control" id="datetime" v-model="datetime2" v-bind:disabled="selected_datetime_custom" placeholder="日時指定">
+                            <div class="input-group" v-show="selected_date_custom">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">年</span>
+                                </div>
+                                <input type="number" class="form-control" id="datetime_year" v-model="datetime_year" min="2000" max="3000" placeholder="年">
+                            </div>                              
+                            <div class="input-group" v-show="selected_date_custom">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">月</span>
+                                </div>
+                                <input type="number" class="form-control" id="datetime_month" v-model="datetime_month" min="1" max="12" placeholder="月">
+                            </div>                              
+                            <div class="input-group" v-show="selected_date_custom">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">日</span>
+                                </div>
+                                <input type="number" class="form-control" id="datetime_day" v-model="datetime_day" min="1" max="31" placeholder="日">
+                            </div>                              
                         </div>
                     </div>
                     <div class="form-group row">
