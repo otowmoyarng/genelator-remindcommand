@@ -13,17 +13,27 @@ var app = new Vue({
         datetime_year: 2021,
         datetime_month: 1,
         datetime_day: 1,
+        datetime_hour: 1,
+        datetime_minute: 1,
         command: REMINDCOMMAND
     },
     computed: {
         selected_sendtarget_custom() {
             return this.sendtarget1 != 'custom';
         },
-        selected_datetime_custom() {
-            return this.datetime1 != 'custom';
+        is_show_date_custom() {
+            return this.datetime1 == 'date-custom' || 
+                    this.datetime1 == 'time-custom'||
+                    this.datetime1 == 'datetime-custom';
         },
         selected_date_custom() {
-            return this.datetime1 == 'date-custom';
+            return this.datetime1 == 'time-custom'
+        },
+        selected_time_custom() {
+            return this.datetime1 == 'date-custom'
+        },
+        selected_custom() {
+            return this.datetime1 != 'custom';
         }
     },
     watch: {
@@ -47,6 +57,12 @@ var app = new Vue({
             this.createCommand();
         },
         datetime_day: function() {
+            this.createCommand();
+        },
+        datetime_hour: function() {
+            this.createCommand();
+        },
+        datetime_minute: function() {
             this.createCommand();
         },
         datetime2: function() {
@@ -111,40 +127,59 @@ var app = new Vue({
                 bindindex++;
             }
 
-            // // 通知日時を取得する関数
-            // const getDateTime = function(datetime1, datetime2) {
+            // 通知日時を取得する関数
+            const getCustomDateTime = function(datetime1,
+                                                datetime2,
+                                                datetime_year,
+                                                datetime_month,
+                                                datetime_day,
+                                                datetime_hour,
+                                                datetime_minute) {
 
-            //     // FIXME
-            //     // console.log("datetime1:" + datetime1);
-            //     // console.log("datetime2:" + datetime2);
+                // FIXME
+                /*
+                console.log("datetime1:" + datetime1);
+                console.log("datetime2:" + datetime2);
+                console.log("datetime_year:" + datetime_year);
+                console.log("datetime_month:" + datetime_month);
+                console.log("datetime_day:" + datetime_day);
+                console.log("datetime_hour:" + datetime_hour);
+                console.log("datetime_minute:" + datetime_minute);
+                */
 
-            //     // 日時指定の場合
-            //     if (datetime1 === 'custom') {
-            //         return datetime2;
-            //     // 日時指定以外の場合
-            //     } else {
-            //         return datetime1;
-            //     }
-            // }
+                let date = new Date();
+                let result = "at ";
+
+                if (datetime1 == 'date-custom') {
+                    date = new Date(datetime_year, (datetime_month - 1), datetime_day);
+                    result += date.toLocaleDateString();
+                } else if (datetime1 == 'time-custom') {
+                    date = new Date(datetime_hour, datetime_minute);
+                    result += date.toLocaleTimeString();
+                } else {
+                    date = new Date(datetime_year, (datetime_month - 1), datetime_day, datetime_hour, datetime_minute);
+                    result += date.toLocaleString()
+                }
+                return result;
+            }
 
             if (this.datetime1 === 'custom') {
                 item = this.datetime2;
-            } else if (this.datetime1 === 'date-custom') {
-                // FIXME
-                // console.log("datetime_year:" + this.datetime_year);
-                // console.log("datetime_month:" + this.datetime_month);
-                // console.log("datetime_day:" + this.datetime_day);
-                date = new Date(this.datetime_year, (this.datetime_month - 1), this.datetime_day);
-                item = "at " + date.toLocaleDateString();
+            } else if (this.datetime1 == 'date-custom' || this.datetime1 == 'time-custom' || this.datetime1 == 'datetime-custom') {
+                item = getCustomDateTime(this.datetime1,
+                                        this.datetime2,
+                                        this.datetime_year,
+                                        this.datetime_month,
+                                        this.datetime_day,
+                                        this.datetime_hour,
+                                        this.datetime_minute);
             } else {
                 item = this.datetime1;
             }
 
-            // 通知日時を取得する
-            // item = getDateTime(this.datetime1, this.datetime2);
-            // // FIXME
-            // console.log("datetime:" + item);
             if (item != null) {
+                // // FIXME
+                // console.log("datetime:" + item);
                 bindarray[bindindex] = item;
                 bindindex++;
             }
@@ -168,7 +203,7 @@ var app = new Vue({
             // FIXME
             // console.log(copyTarget.value);
         }, set_today_datecustom: function() {
-            if (this.datetime1 === 'date-custom') {
+            if (this.datetime1 === 'date-custom' || this.datetime1 == 'datetime-custom') {
                 let today = new Date();
                 this.datetime_year = today.getFullYear();
                 this.datetime_month = today.getMonth()+1;
