@@ -10,6 +10,9 @@ var app = new Vue({
         messege: '',
         datetime1: 'default',
         datetime2: '',
+        datetime_year: 2021,
+        datetime_month: 1,
+        datetime_day: 1,
         command: REMINDCOMMAND
     },
     computed: {
@@ -18,6 +21,9 @@ var app = new Vue({
         },
         selected_datetime_custom() {
             return this.datetime1 != 'custom';
+        },
+        selected_date_custom() {
+            return this.datetime1 == 'date-custom';
         }
     },
     watch: {
@@ -31,6 +37,16 @@ var app = new Vue({
             this.createCommand();
         },
         datetime1: function() {
+            this.set_today_datecustom();
+            this.createCommand();
+        },
+        datetime_year: function() {
+            this.createCommand();
+        },
+        datetime_month: function() {
+            this.createCommand();
+        },
+        datetime_day: function() {
             this.createCommand();
         },
         datetime2: function() {
@@ -48,8 +64,8 @@ var app = new Vue({
             const getTarget = function(sendtarget1, sendtarget2) {
 
                 // FIXME
-                console.log(this.sendtarget1);
-                console.log(this.sendtarget2);
+                // console.log("sendtarget1:" + sendtarget1);
+                // console.log("sendtarget2:" + sendtarget2);
 
                 if (sendtarget1 == 'default') {
                     return null;
@@ -80,7 +96,7 @@ var app = new Vue({
             const getMessage = function(messege) {
                 
                 // FIXME
-                console.log(messege);
+                // console.log("messege:" + messege);
 
                 if (messege == '') {
                     return null;
@@ -95,23 +111,39 @@ var app = new Vue({
                 bindindex++;
             }
 
-            // 通知日時を取得する関数
-            const getDateTime = function(datetime1, datetime2) {
+            // // 通知日時を取得する関数
+            // const getDateTime = function(datetime1, datetime2) {
 
+            //     // FIXME
+            //     // console.log("datetime1:" + datetime1);
+            //     // console.log("datetime2:" + datetime2);
+
+            //     // 日時指定の場合
+            //     if (datetime1 === 'custom') {
+            //         return datetime2;
+            //     // 日時指定以外の場合
+            //     } else {
+            //         return datetime1;
+            //     }
+            // }
+
+            if (this.datetime1 === 'custom') {
+                item = this.datetime2;
+            } else if (this.datetime1 === 'date-custom') {
                 // FIXME
-                console.log(datetime1);
-                console.log(datetime2);
-
-                // 日時指定の場合
-                if (this.datetime1 === 'custom') {
-                    return datetime2;
-                // 日時指定以外の場合
-                } else {
-                    return datetime1;
-                }
+                // console.log("datetime_year:" + this.datetime_year);
+                // console.log("datetime_month:" + this.datetime_month);
+                // console.log("datetime_day:" + this.datetime_day);
+                date = new Date(this.datetime_year, (this.datetime_month - 1), this.datetime_day);
+                item = "at " + date.toLocaleDateString();
+            } else {
+                item = this.datetime1;
             }
+
             // 通知日時を取得する
-            var item = getDateTime(this.datetime1, this.datetime2);
+            // item = getDateTime(this.datetime1, this.datetime2);
+            // // FIXME
+            // console.log("datetime:" + item);
             if (item != null) {
                 bindarray[bindindex] = item;
                 bindindex++;
@@ -135,6 +167,13 @@ var app = new Vue({
 
             // FIXME
             // console.log(copyTarget.value);
+        }, set_today_datecustom: function() {
+            if (this.datetime1 === 'date-custom') {
+                let today = new Date();
+                this.datetime_year = today.getFullYear();
+                this.datetime_month = today.getMonth()+1;
+                this.datetime_day = today.getDate();
+            }
         }
     }
 });
