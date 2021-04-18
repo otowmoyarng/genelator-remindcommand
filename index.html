@@ -48,29 +48,41 @@
                                 <option value="everyday">毎日</option>
                                 <option value="every weekday">平日</option>
                                 <!-- <option value=""></option> -->
-                                <!-- <option value=""></option> -->
-                                <!-- <option value=""></option> -->
-                                <option value="date-custom">日付指定</option>
+                                <option value="date-custom">日付を指定する</option>
+                                <option value="time-custom">時間を指定する</option>
+                                <option value="datetime-custom">日時を指定する</option>
                                 <option value="custom">その他</option>
                             </select>
-                            <input type="text" class="form-control" id="datetime" v-model="datetime2" v-bind:disabled="selected_datetime_custom" placeholder="日時指定">
-                            <div class="input-group" v-show="selected_date_custom">
+                            <input type="text" class="form-control" id="datetime" v-model="datetime2" v-bind:disabled="selected_custom" placeholder="日時指定">
+                            <div class="input-group" v-show="is_show_date_custom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">年</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_year" v-model="datetime_year" min="2000" max="3000" placeholder="年">
+                                <input type="number" class="form-control" id="datetime_year" v-model="datetime_year" min="2000" max="3000" v-bind:disabled="selected_date_custom" placeholder="年">
                             </div>                              
-                            <div class="input-group" v-show="selected_date_custom">
+                            <div class="input-group" v-show="is_show_date_custom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">月</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_month" v-model="datetime_month" min="1" max="12" placeholder="月">
+                                <input type="number" class="form-control" id="datetime_month" v-model="datetime_month" min="1" max="12" v-bind:disabled="selected_date_custom" placeholder="月">
                             </div>                              
-                            <div class="input-group" v-show="selected_date_custom">
+                            <div class="input-group" v-show="is_show_date_custom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">日</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_day" v-model="datetime_day" min="1" max="31" placeholder="日">
+                                <input type="number" class="form-control" id="datetime_day" v-model="datetime_day" min="1" max="31" v-bind:disabled="selected_date_custom" placeholder="日">
+                            </div>                              
+                            <div class="input-group" v-show="is_show_date_custom">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">時</span>
+                                </div>
+                                <input type="number" class="form-control" id="datetime_month" v-model="datetime_hour" min="1" max="60" v-bind:disabled="selected_time_custom" placeholder="月">
+                            </div>                              
+                            <div class="input-group" v-show="is_show_date_custom">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">分</span>
+                                </div>
+                                <input type="number" class="form-control" id="datetime_day" v-model="datetime_minute" min="1" max="60" v-bind:disabled="selected_time_custom" placeholder="日">
                             </div>                              
                         </div>
                     </div>
