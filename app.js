@@ -140,24 +140,32 @@ var app = new Vue({
                 /*
                 console.log("datetime1:" + datetime1);
                 console.log("datetime2:" + datetime2);
+                */
                 console.log("datetime_year:" + datetime_year);
                 console.log("datetime_month:" + datetime_month);
                 console.log("datetime_day:" + datetime_day);
                 console.log("datetime_hour:" + datetime_hour);
                 console.log("datetime_minute:" + datetime_minute);
-                */
 
                 let date = new Date();
                 let result = "at ";
 
+                if (datetime1 != 'time-custom') {
+                    date.setFullYear(datetime_year);
+                    date.setMonth((datetime_month - 1));
+                    date.setDate(datetime_day);
+                }
+                if (datetime1 != 'date-custom') {
+                    date.setHours(datetime_hour);
+                    date.setMinutes(datetime_minute);
+                }
+                date.setSeconds(0);
+
                 if (datetime1 == 'date-custom') {
-                    date = new Date(datetime_year, (datetime_month - 1), datetime_day);
                     result += date.toLocaleDateString();
                 } else if (datetime1 == 'time-custom') {
-                    date = new Date(datetime_hour, datetime_minute);
                     result += date.toLocaleTimeString();
                 } else {
-                    date = new Date(datetime_year, (datetime_month - 1), datetime_day, datetime_hour, datetime_minute);
                     result += date.toLocaleString()
                 }
                 return result;
