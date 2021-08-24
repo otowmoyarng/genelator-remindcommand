@@ -93,9 +93,8 @@ var app = new Vue({
             // 通知対象を取得する関数
             const getTarget = function (sendtarget1, sendtarget2) {
 
-                // FIXME
-                // console.log("sendtarget1:" + sendtarget1);
-                // console.log("sendtarget2:" + sendtarget2);
+                console.debug("sendtarget1:" + sendtarget1);
+                console.debug("sendtarget2:" + sendtarget2);
 
                 if (sendtarget1 == 'default') {
                     return null;
@@ -125,8 +124,7 @@ var app = new Vue({
             // メッセージを取得する関数
             const getMessage = function (messege) {
 
-                // FIXME
-                // console.log("messege:" + messege);
+                console.debug("messege:" + messege);
 
                 if (messege == '') {
                     return null;
@@ -150,16 +148,13 @@ var app = new Vue({
                 datetime_hour,
                 datetime_minute) {
 
-                // FIXME
-                /*
-                console.log("datetime1:" + datetime1);
-                console.log("datetime2:" + datetime2);
-                */
-                console.log("datetime_year:" + datetime_year);
-                console.log("datetime_month:" + datetime_month);
-                console.log("datetime_day:" + datetime_day);
-                console.log("datetime_hour:" + datetime_hour);
-                console.log("datetime_minute:" + datetime_minute);
+                console.debug("datetime1:" + datetime1);
+                console.debug("datetime2:" + datetime2);
+                console.debug("datetime_year:" + datetime_year);
+                console.debug("datetime_month:" + datetime_month);
+                console.debug("datetime_day:" + datetime_day);
+                console.debug("datetime_hour:" + datetime_hour);
+                console.debug("datetime_minute:" + datetime_minute);
 
                 let date = new Date();
                 let result = "at ";
@@ -203,15 +198,13 @@ var app = new Vue({
             }
 
             if (item != null) {
-                // // FIXME
-                // console.log("datetime:" + item);
+                console.debug("datetime:" + item);
                 bindarray[bindindex] = item;
                 bindindex++;
             }
 
             for (i = 0; i < bindindex; i++) {
-                // FIXME
-                // console.log(bindarray[i]);
+                console.debug(bindarray[i]);
                 this.command += ' ' + bindarray[i];
             }
         }, copyToClipboard: function () {
@@ -225,8 +218,7 @@ var app = new Vue({
             // 選択しているテキストをクリップボードにコピーする
             document.execCommand("Copy");
 
-            // FIXME
-            // console.log(copyTarget.value);
+            console.debug(copyTarget.value);
         }, set_today_datecustom: function () {
             if (this.datetime1 === 'date-custom' || this.datetime1 == 'datetime-custom') {
                 let today = new Date();
