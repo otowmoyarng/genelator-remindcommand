@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="jp">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
     <title>Slack remind command generator | スラック リマインド コマンド 自動生成</title>
 </head>
+
 <body>
     <div id="app" class="appmain">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Slack Remind Command Genelatior</h4>
+                <h4 class="card-title">Slack Remind Command Genelator</h4>
                 <h6 class="card-subtitle mb-2 text-muted">slackのremindコマンドを生成します。</h6>
             </div>
             <div class="card-body">
                 <form>
                     <div class="form-group row">
-                        <label for="sendtarget" class="col-sm-2 col-form-label">通知対象</label>
+                        <label for="sendTarget" class="col-sm-2 col-form-label">通知対象</label>
                         <div class="col-sm-10">
-                            <select class="form-control" v-model="sendtarget1">
+                            <select class="form-control" v-model="sendTarget1">
                                 <option value="default" selected="">通知対象</option>
                                 <option value="me">自分に</option>
                                 <option value="everyone">generalに</option>
@@ -29,7 +32,8 @@
                                 <option value="here">アクティブメンバー全員に</option>
                                 <option value="custom">指定する</option>
                             </select>
-                            <input type="text" class="form-control" id="sendtarget" v-model="sendtarget2" v-bind:disabled="selected_sendtarget_custom" placeholder="宛先指定">
+                            <input type="text" class="form-control" id="sendTarget" v-model="sendTarget2"
+                                v-bind:disabled="selectedSendTargetCustom" placeholder="宛先指定">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -39,9 +43,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="datetime" class="col-sm-2 col-form-label">日時</label>
+                        <label for="dateTime" class="col-sm-2 col-form-label">日時</label>
                         <div class="col-sm-10">
-                            <select class="form-control" v-model="datetime1">
+                            <select class="form-control" v-model="dateTime1">
                                 <option value="default" selected="">通知日時</option>
                                 <option value="now">すぐ</option>
                                 <option value="tomorrow">明日</option>
@@ -50,49 +54,62 @@
                                 <!-- <option value=""></option> -->
                                 <option value="date-custom">日付を指定する</option>
                                 <option value="time-custom">時間を指定する</option>
-                                <option value="datetime-custom">日時を指定する</option>
+                                <option value="dateTime-custom">日時を指定する</option>
                                 <option value="custom">その他</option>
                             </select>
-                            <input type="text" class="form-control" id="datetime" v-model="datetime2" v-bind:disabled="selected_custom" placeholder="日時指定">
-                            <div class="input-group" v-show="is_show_date_custom">
+                            <input type="text" class="form-control" id="dateTime" v-model="dateTime2"
+                                v-bind:disabled="selectedCustom" placeholder="日時指定">
+                            <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">年</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_year" v-model="datetime_year" min="2000" max="3000" v-bind:disabled="selected_date_custom" placeholder="年">
-                            </div>                              
-                            <div class="input-group" v-show="is_show_date_custom">
+                                <input type="number" class="form-control" id="dateTime_year" v-model="dateTime_year"
+                                    min="2000" max="3000" v-bind:disabled="selectedDateCustom" placeholder="年">
+                            </div>
+                            <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">月</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_month" v-model="datetime_month" min="1" max="12" v-bind:disabled="selected_date_custom" placeholder="月">
-                            </div>                              
-                            <div class="input-group" v-show="is_show_date_custom">
+                                <input type="number" class="form-control" id="dateTime_month" v-model="dateTime_month"
+                                    min="1" max="12" v-bind:disabled="selectedDateCustom" placeholder="月">
+                            </div>
+                            <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">日</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_day" v-model="datetime_day" min="1" max="31" v-bind:disabled="selected_date_custom" placeholder="日">
-                            </div>                              
-                            <div class="input-group" v-show="is_show_date_custom">
+                                <input type="number" class="form-control" id="dateTime_day" v-model="dateTime_day"
+                                    min="1" max="31" v-bind:disabled="selectedDateCustom" placeholder="日">
+                            </div>
+                            <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">時</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_month" v-model="datetime_hour" min="1" max="60" v-bind:disabled="selected_time_custom" placeholder="時">
-                            </div>                              
-                            <div class="input-group" v-show="is_show_date_custom">
+                                <input type="number" class="form-control" id="dateTime_month" v-model="dateTime_hour"
+                                    min="1" max="60" v-bind:disabled="selectedTimeCustom" placeholder="時">
+                            </div>
+                            <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">分</span>
                                 </div>
-                                <input type="number" class="form-control" id="datetime_day" v-model="datetime_minute" min="1" max="60" v-bind:disabled="selected_time_custom" placeholder="分">
-                            </div>                              
+                                <input type="number" class="form-control" id="dateTime_day" v-model="dateTime_minute"
+                                    min="1" max="60" v-bind:disabled="selectedTimeCustom" placeholder="分">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="input-group">
-                            <input class="form-control" type="text" id="command" v-model="command" placeholder="Readonly input here…" readonly="">
-                            <button type="button" id="copybutton" class="btn btn-light" v-on:click="copyToClipboard" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
-                                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
+                            <input class="form-control" type="text" id="command" v-model="command"
+                                placeholder="Readonly input here…" readonly="">
+                            <button type="button" id="copybutton" class="btn btn-light" v-on:click="copyToClipboard"
+                                data-toggle="tooltip" data-placement="top" title="Copy to clipboard">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-clipboard" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z">
+                                    </path>
+                                    <path
+                                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z">
+                                    </path>
                                 </svg>
                             </button>
                         </div>
@@ -103,11 +120,18 @@
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <!-- 本番バージョン、サイズと速度のために最適化されています -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script type="text/javascript" src="./app.js"></script>
 </body>
+
 </html>
