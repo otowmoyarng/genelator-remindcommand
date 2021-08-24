@@ -1,10 +1,26 @@
 // remindコマンド
 const REMINDCOMMAND = '/remind';
 
+const isShowDateTimeArrays = [
+    'tomorrow',
+    'everyday',
+    'every weekday',
+    'date-custom',
+    'time-custom',
+    'datetime-custom'
+];
+
+const isEnableTimeArrays = [
+    'tomorrow',
+    'everyday',
+    'every weekday',
+    'time-custom'
+];
+
 // Vue.js
 var app = new Vue({
-    el : '#app',
-    data : {
+    el: '#app',
+    data: {
         sendtarget1: 'default',
         sendtarget2: '',
         messege: '',
@@ -22,12 +38,10 @@ var app = new Vue({
             return this.sendtarget1 != 'custom';
         },
         is_show_date_custom() {
-            return this.datetime1 == 'date-custom' || 
-                    this.datetime1 == 'time-custom'||
-                    this.datetime1 == 'datetime-custom';
+            return isShowDateTimeArrays.includes(this.datetime1);
         },
         selected_date_custom() {
-            return this.datetime1 == 'time-custom'
+            return isEnableTimeArrays.includes(this.datetime1);
         },
         selected_time_custom() {
             return this.datetime1 == 'date-custom'
@@ -37,47 +51,47 @@ var app = new Vue({
         }
     },
     watch: {
-        sendtarget1: function() {
+        sendtarget1: function () {
             this.createCommand();
         },
-        sendtarget2: function() {
+        sendtarget2: function () {
             this.createCommand();
         },
-        messege: function() {
+        messege: function () {
             this.createCommand();
         },
-        datetime1: function() {
+        datetime1: function () {
             this.set_today_datecustom();
             this.createCommand();
         },
-        datetime_year: function() {
+        datetime_year: function () {
             this.createCommand();
         },
-        datetime_month: function() {
+        datetime_month: function () {
             this.createCommand();
         },
-        datetime_day: function() {
+        datetime_day: function () {
             this.createCommand();
         },
-        datetime_hour: function() {
+        datetime_hour: function () {
             this.createCommand();
         },
-        datetime_minute: function() {
+        datetime_minute: function () {
             this.createCommand();
         },
-        datetime2: function() {
+        datetime2: function () {
             this.createCommand();
         }
     },
     methods: {
-        createCommand: function() {
+        createCommand: function () {
 
             this.command = REMINDCOMMAND;
             let bindarray = new Array();
             bindindex = 0;
 
             // 通知対象を取得する関数
-            const getTarget = function(sendtarget1, sendtarget2) {
+            const getTarget = function (sendtarget1, sendtarget2) {
 
                 // FIXME
                 // console.log("sendtarget1:" + sendtarget1);
@@ -109,8 +123,8 @@ var app = new Vue({
             }
 
             // メッセージを取得する関数
-            const getMessage = function(messege) {
-                
+            const getMessage = function (messege) {
+
                 // FIXME
                 // console.log("messege:" + messege);
 
@@ -128,13 +142,13 @@ var app = new Vue({
             }
 
             // 通知日時を取得する関数
-            const getCustomDateTime = function(datetime1,
-                                                datetime2,
-                                                datetime_year,
-                                                datetime_month,
-                                                datetime_day,
-                                                datetime_hour,
-                                                datetime_minute) {
+            const getCustomDateTime = function (datetime1,
+                datetime2,
+                datetime_year,
+                datetime_month,
+                datetime_day,
+                datetime_hour,
+                datetime_minute) {
 
                 // FIXME
                 /*
@@ -150,7 +164,7 @@ var app = new Vue({
                 let date = new Date();
                 let result = "at ";
 
-                if (datetime1 != 'time-custom') {
+                if (!isEnableTimeArrays.includes(datetime1)) {
                     date.setFullYear(datetime_year);
                     date.setMonth((datetime_month - 1));
                     date.setDate(datetime_day);
@@ -163,8 +177,11 @@ var app = new Vue({
 
                 if (datetime1 == 'date-custom') {
                     result += date.toLocaleDateString();
-                } else if (datetime1 == 'time-custom') {
+                } else if (isEnableTimeArrays.includes(datetime1)) {
                     result += date.toLocaleTimeString();
+                    if (datetime1 != 'time-custom') {
+                        result += " " + datetime1;
+                    }
                 } else {
                     result += date.toLocaleString()
                 }
@@ -173,14 +190,14 @@ var app = new Vue({
 
             if (this.datetime1 === 'custom') {
                 item = this.datetime2;
-            } else if (this.datetime1 == 'date-custom' || this.datetime1 == 'time-custom' || this.datetime1 == 'datetime-custom') {
+            } else if (isShowDateTimeArrays.includes(this.datetime1)) {
                 item = getCustomDateTime(this.datetime1,
-                                        this.datetime2,
-                                        this.datetime_year,
-                                        this.datetime_month,
-                                        this.datetime_day,
-                                        this.datetime_hour,
-                                        this.datetime_minute);
+                    this.datetime2,
+                    this.datetime_year,
+                    this.datetime_month,
+                    this.datetime_day,
+                    this.datetime_hour,
+                    this.datetime_minute);
             } else {
                 item = this.datetime1;
             }
@@ -197,8 +214,8 @@ var app = new Vue({
                 // console.log(bindarray[i]);
                 this.command += ' ' + bindarray[i];
             }
-        }, copyToClipboard: function() {
-            
+        }, copyToClipboard: function () {
+
             // コピー対象をJavaScript上で変数として定義する
             var copyTarget = document.getElementById("command");
 
@@ -210,12 +227,22 @@ var app = new Vue({
 
             // FIXME
             // console.log(copyTarget.value);
-        }, set_today_datecustom: function() {
+        }, set_today_datecustom: function () {
             if (this.datetime1 === 'date-custom' || this.datetime1 == 'datetime-custom') {
                 let today = new Date();
                 this.datetime_year = today.getFullYear();
-                this.datetime_month = today.getMonth()+1;
+                this.datetime_month = today.getMonth() + 1;
                 this.datetime_day = today.getDate();
+            }
+            if (isEnableTimeArrays.includes(this.datetime1)) {
+                if (this.datetime1 == 'time-custom') {
+                    let today = new Date();
+                    this.datetime_hour = today.getHours();
+                    this.datetime_minute = today.getMinutes();
+                } else {
+                    this.datetime_hour = 9;
+                    this.datetime_minute = 0;
+                }
             }
         }
     }
