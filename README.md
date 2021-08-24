@@ -1,5 +1,7 @@
 # 概要
-remindコマンドを自動生成する画面<br>
+
+remindコマンドを自動生成する画面
+
 [画面へ](https://otowmoyarng.github.io/slack-remind-generator/)
 
 ## /remindコマンドについて
