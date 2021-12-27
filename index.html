@@ -85,14 +85,14 @@
                                     <span class="input-group-text">時</span>
                                 </div>
                                 <input type="number" class="form-control" id="dateTime_month" v-model="dateTime_hour"
-                                    min="1" max="60" v-bind:disabled="selectedTimeCustom" placeholder="時">
+                                    min="0" max="23" v-bind:disabled="selectedTimeCustom" placeholder="時">
                             </div>
                             <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">分</span>
                                 </div>
                                 <input type="number" class="form-control" id="dateTime_day" v-model="dateTime_minute"
-                                    min="1" max="60" v-bind:disabled="selectedTimeCustom" placeholder="分">
+                                    min="0" max="59" v-bind:disabled="selectedTimeCustom" placeholder="分">
                             </div>
                         </div>
                     </div>
