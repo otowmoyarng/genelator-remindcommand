@@ -45,13 +45,14 @@
                     <div class="form-group row">
                         <label for="dateTime" class="col-sm-2 col-form-label">日時</label>
                         <div class="col-sm-10">
-                            <select class="form-control" v-model="dateTime1">
+                            <select class="form-control" id="dateTime1" v-model="dateTime1">
                                 <option value="default" selected="">通知日時</option>
                                 <option value="now">すぐ</option>
                                 <option value="tomorrow">明日</option>
                                 <option value="everyday">毎日</option>
                                 <option value="every weekday">平日</option>
-                                <!-- <option value=""></option> -->
+                                <option value="every week">毎週</option>
+                                <option value="every month">毎月</option>
                                 <option value="date-custom">日付を指定する</option>
                                 <option value="time-custom">時間を指定する</option>
                                 <option value="dateTime-custom">日時を指定する</option>
@@ -61,35 +62,50 @@
                                 v-bind:disabled="selectedCustom" placeholder="日時指定">
                             <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">年</span>
+                                    <span class="input-group-text dateTime_label">年</span>
                                 </div>
                                 <input type="number" class="form-control" id="dateTime_year" v-model="dateTime_year"
                                     min="2000" max="3000" v-bind:disabled="selectedDateCustom" placeholder="年">
                             </div>
                             <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">月</span>
+                                    <span class="input-group-text dateTime_label">月</span>
                                 </div>
                                 <input type="number" class="form-control" id="dateTime_month" v-model="dateTime_month"
                                     min="1" max="12" v-bind:disabled="selectedDateCustom" placeholder="月">
                             </div>
                             <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">日</span>
+                                    <span class="input-group-text dateTime_label">日</span>
                                 </div>
                                 <input type="number" class="form-control" id="dateTime_day" v-model="dateTime_day"
-                                    min="1" max="31" v-bind:disabled="selectedDateCustom" placeholder="日">
+                                    min="1" max="31" v-bind:disabled="selectedDayCustom" placeholder="日">
                             </div>
                             <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">時</span>
+                                    <span class="input-group-text dateTime_label">曜日</span>
+                                </div>
+                                <select class="form-control" v-model="dateTime_week" v-bind:disabled="selectedEveryWeek">
+                                    <option value="default" selected="">曜日</option>
+                                    <option value="Sunday">日</option>
+                                    <option value="Monday">月</option>
+                                    <option value="Tuesday">火</option>
+                                    <option value="Wednesday">水</option>
+                                    <option value="Thursday">木</option>
+                                    <option value="Friday">金</option>
+                                    <option value="Saturday">土</option>
+                                </select>
+                            </div>
+                            <div class="input-group" v-show="isShowDateCustom">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text dateTime_label">時</span>
                                 </div>
                                 <input type="number" class="form-control" id="dateTime_month" v-model="dateTime_hour"
                                     min="0" max="23" v-bind:disabled="selectedTimeCustom" placeholder="時">
                             </div>
                             <div class="input-group" v-show="isShowDateCustom">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">分</span>
+                                    <span class="input-group-text dateTime_label">分</span>
                                 </div>
                                 <input type="number" class="form-control" id="dateTime_day" v-model="dateTime_minute"
                                     min="0" max="59" v-bind:disabled="selectedTimeCustom" placeholder="分">
