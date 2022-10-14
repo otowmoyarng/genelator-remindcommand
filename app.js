@@ -217,20 +217,20 @@ var app = new Vue({
                         result += " on every " + dateTime_week;
                     // 毎月
                     } else if (dateTime1 == 'every month') {
-                        result += " on the ";
+                        result += " on the " + dateTime_day;
                         
                         switch (dateTime_day) {
-                            case 1:
-                                result += "1st";
+                            case '1':
+                                result += "st";
                                 break;
-                            case 2:
-                                result += "2nd";
+                            case '2':
+                                result += "nd";
                                 break;
-                            case 3:
-                                result += "3rd";
+                            case '3':
+                                result += "rd";
                                 break;
                             default:
-                                result += String(dateTime_day) + "th";
+                                result += "th";
                                 break;
                         }
                         result += " of " + dateTime1;
