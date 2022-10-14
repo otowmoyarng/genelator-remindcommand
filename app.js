@@ -5,6 +5,8 @@ const isShowDateTimeArrays = [
     'tomorrow',
     'everyday',
     'every weekday',
+    'every week',
+    'every month',
     'date-custom',
     'time-custom',
     'dateTime-custom'
@@ -15,6 +17,16 @@ const isEnableTimeArrays = [
     'everyday',
     'every weekday',
     'time-custom'
+];
+
+const weekdayNames = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
 ];
 
 // Vue.js
@@ -29,6 +41,7 @@ var app = new Vue({
         dateTime_year: 2021,
         dateTime_month: 1,
         dateTime_day: 1,
+        dateTime_week: 'default',
         dateTime_hour: 1,
         dateTime_minute: 1,
         command: RemindCommand
@@ -145,6 +158,7 @@ var app = new Vue({
                 dateTime_year,
                 dateTime_month,
                 dateTime_day,
+                dateTime_week,
                 dateTime_hour,
                 dateTime_minute) {
 
@@ -191,6 +205,7 @@ var app = new Vue({
                     this.dateTime_year,
                     this.dateTime_month,
                     this.dateTime_day,
+                    this.dateTime_week,
                     this.dateTime_hour,
                     this.dateTime_minute);
             } else {
@@ -225,6 +240,7 @@ var app = new Vue({
                 this.dateTime_year = today.getFullYear();
                 this.dateTime_month = today.getMonth() + 1;
                 this.dateTime_day = today.getDate();
+                this.dateTime_week = weekdayNames[today.getDay()];
             }
             if (isEnableTimeArrays.includes(this.dateTime1)) {
                 if (this.dateTime1 == 'time-custom') {
@@ -239,3 +255,8 @@ var app = new Vue({
         }
     }
 });
+
+// const weekday = document.getElementById('dateTime_week');
+// if (weekday) {
+//     weekday.selectedIndex = 0;
+// }

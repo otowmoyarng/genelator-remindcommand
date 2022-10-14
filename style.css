@@ -11,3 +11,6 @@ body {
 /* .appmain {
     margin: 0 auto;
 } */
+.dateTime_label {
+    width: 60px;
+}
