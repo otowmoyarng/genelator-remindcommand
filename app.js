@@ -58,6 +58,9 @@ var app = new Vue({
         selectedDateCustom() {
             return isEnableTimeArrays.includes(this.dateTime1);
         },
+        selectedDayCustom() {
+            return ['tomorrow','everyday','every weekday','every week','time-custom'].includes(this.dateTime1);
+        },
         selectedTimeCustom() {
             return this.dateTime1 == 'date-custom'
         },
