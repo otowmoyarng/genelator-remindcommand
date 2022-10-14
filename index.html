@@ -85,7 +85,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text dateTime_label">曜日</span>
                                 </div>
-                                <select class="form-control" v-model="dateTime_week">
+                                <select class="form-control" v-model="dateTime_week" v-bind:disabled="selectedEveryWeek">
                                     <option value="default" selected="">曜日</option>
                                     <option value="Sunday">日</option>
                                     <option value="Monday">月</option>

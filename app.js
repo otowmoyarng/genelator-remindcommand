@@ -16,6 +16,8 @@ const isEnableTimeArrays = [
     'tomorrow',
     'everyday',
     'every weekday',
+    'every week',
+    'every month',
     'time-custom'
 ];
 
@@ -59,6 +61,9 @@ var app = new Vue({
         selectedTimeCustom() {
             return this.dateTime1 == 'date-custom'
         },
+        selectedEveryWeek() {
+            return this.dateTime1 != 'every week'
+        },
         selectedCustom() {
             return this.dateTime1 != 'custom';
         }
@@ -75,15 +80,22 @@ var app = new Vue({
         },
         dateTime1: function () {
             this.setTodayDateCustom();
+            this.setWeekDay();
             this.createCommand();
         },
         dateTime_year: function () {
+            this.setWeekDay();
             this.createCommand();
         },
         dateTime_month: function () {
+            this.setWeekDay();
             this.createCommand();
         },
         dateTime_day: function () {
+            this.setWeekDay();
+            this.createCommand();
+        },
+        dateTime_week: function () {
             this.createCommand();
         },
         dateTime_hour: function () {
@@ -167,49 +179,87 @@ var app = new Vue({
                 console.debug("dateTime_year:" + dateTime_year);
                 console.debug("dateTime_month:" + dateTime_month);
                 console.debug("dateTime_day:" + dateTime_day);
+                console.debug("dateTime_week:" + dateTime_week);
                 console.debug("dateTime_hour:" + dateTime_hour);
                 console.debug("dateTime_minute:" + dateTime_minute);
 
                 let date = new Date();
                 let result = "at ";
 
+                // 日付を指定する or 日時を指定する
                 if (!isEnableTimeArrays.includes(dateTime1)) {
                     date.setFullYear(dateTime_year);
                     date.setMonth((dateTime_month - 1));
                     date.setDate(dateTime_day);
                 }
+
+                // 日付を指定する以外
                 if (dateTime1 != 'date-custom') {
                     date.setHours(dateTime_hour);
                     date.setMinutes(dateTime_minute);
                 }
                 date.setSeconds(0);
 
+                // 日付を指定する
                 if (dateTime1 == 'date-custom') {
                     result += date.toLocaleDateString();
-                } else if (isEnableTimeArrays.includes(dateTime1)) {
+                // 日時を指定する
+                } else if (dateTime1 == 'dateTime-custom') {
+                    result += date.toLocaleString()
+                } else {
                     result += date.toLocaleTimeString();
-                    if (dateTime1 != 'time-custom') {
+
+                    // 毎週
+                    if (dateTime1 == 'every week') {
+                        result += " on every " + dateTime_week;
+                    // 毎月
+                    } else if (dateTime1 == 'every month') {
+                        result += " on the ";
+                        
+                        switch (dateTime_day) {
+                            case 1:
+                                result += "1st";
+                                break;
+                            case 2:
+                                result += "2nd";
+                                break;
+                            case 3:
+                                result += "3rd";
+                                break;
+                            default:
+                                result += String(dateTime_day) + "th";
+                                break;
+                        }
+                        result += " of " + dateTime1;
+
+                    // 明日･毎日･平日
+                    } else if (dateTime1 != 'time-custom') {
                         result += " " + dateTime1;
                     }
-                } else {
-                    result += date.toLocaleString()
                 }
                 return result;
             }
 
-            if (this.dateTime1 === 'custom') {
-                item = this.dateTime2;
-            } else if (isShowDateTimeArrays.includes(this.dateTime1)) {
-                item = getCustomDateTime(this.dateTime1,
-                    this.dateTime2,
-                    this.dateTime_year,
-                    this.dateTime_month,
-                    this.dateTime_day,
-                    this.dateTime_week,
-                    this.dateTime_hour,
-                    this.dateTime_minute);
-            } else {
-                item = this.dateTime1;
+            switch (this.dateTime1) {
+                // すぐ
+                case 'now':
+                    item = this.dateTime1;
+                    break;
+                // その他
+                case 'custom':
+                    item = this.dateTime2;
+                    break;
+                default:
+                    item = getCustomDateTime(
+                                this.dateTime1,
+                                this.dateTime2,
+                                this.dateTime_year,
+                                this.dateTime_month,
+                                this.dateTime_day,
+                                this.dateTime_week,
+                                this.dateTime_hour,
+                                this.dateTime_minute);
+                    break;
             }
 
             if (item != null) {
@@ -240,7 +290,6 @@ var app = new Vue({
                 this.dateTime_year = today.getFullYear();
                 this.dateTime_month = today.getMonth() + 1;
                 this.dateTime_day = today.getDate();
-                this.dateTime_week = weekdayNames[today.getDay()];
             }
             if (isEnableTimeArrays.includes(this.dateTime1)) {
                 if (this.dateTime1 == 'time-custom') {
@@ -252,11 +301,18 @@ var app = new Vue({
                     this.dateTime_minute = 0;
                 }
             }
+        }, setWeekDay: function () {
+            let weekdayValue = '';
+            if (this.dateTime1 === 'default') {
+                weekdayValue = 'default';
+            } else {
+                let date = new Date();
+                date.setFullYear(this.dateTime_year);
+                date.setMonth((this.dateTime_month - 1));
+                date.setDate(this.dateTime_day);
+                weekdayValue = weekdayNames[date.getDay()];
+            }
+            this.dateTime_week = weekdayValue;
         }
     }
 });
-
-// const weekday = document.getElementById('dateTime_week');
-// if (weekday) {
-//     weekday.selectedIndex = 0;
-// }
